@@ -1,0 +1,53 @@
+trigger:
+  - master
+  - feature/*
+  - hotfix/*
+
+pool:
+  vmImage: 'vs2017-win2016'
+
+variables:
+  buildConfiguration: 'Release'
+  disable.coverage.autogenerate: 'true'
+  dotnet_cli_telemetry_optout: true
+
+steps:
+  - task: DotNetCoreInstaller@0
+    inputs:
+      version: '2.2.300'
+
+  - script: dotnet restore
+    displayName: 'Restore'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build'
+    inputs:
+      command: build
+      projects: '**/*.csproj'
+      arguments: '--configuration $(buildConfiguration)'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Tests with coverage'
+    inputs:
+      command: 'test'
+      projects: 'FluentScenariosTests\FluentScenariosTests.csproj'
+      arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:Exclude="[xunit.runner.*]*"'
+      testRunTitle: 'Unit Tests'
+      workingDirectory: 'FluentScenariosTests'
+
+  - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+    displayName: ReportGenerator
+    inputs:
+      reports: '$(Build.SourcesDirectory)\FluentScenariosTests\coverage.cobertura.xml'
+      targetdir: '$(Build.SourcesDirectory)\TestResults\Coverage\Reports\coveragereport'
+      sourcedirs: 'FluentScenariosTests\'
+      reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
+      assemblyfilters: '-xunit*'
+
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish test and coverage results'
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '$(Build.SourcesDirectory)\FluentScenariosTests\coverage.cobertura.xml'
+      pathToSources: '$(Build.SourcesDirectory)'
+      reportDirectory: '$(Build.SourcesDirectory)\TestResults\Coverage\Reports\coveragereport'
