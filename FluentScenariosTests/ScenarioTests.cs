@@ -76,5 +76,18 @@ namespace FluentScenariosTests
 
             callCount.Should().Be(expectedCallCount, $"the action should have been called {expectedCallCount} times during the scenario execution");
         }
+        
+        [Theory]
+        [ClassData(typeof(ExampleData))]
+        public void TestScenarioWithExampleDataV3(object dataRow)
+        {
+            int apples = 0;
+            new ScenarioWithExamples(_output, dataRow)
+                .Given("I have @original apple(s) in my basket", (values) => { apples = (int)values.original; })
+                .Run();
+
+            apples.Should().Be((int) dataRow.GetType().GetProperty("original").GetValue(dataRow, null));
+            _output.WriteLine($"{apples}");
+        }
     }
 }
