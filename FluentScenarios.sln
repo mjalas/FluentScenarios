@@ -1,8 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScenarios", "FluentScenarios\FluentScenarios.csproj", "{1A40A2E9-E607-4C02-956E-61EBA743D8F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScenariosTests", "FluentScenariosTests\FluentScenariosTests.csproj", "{48E8EEED-59ED-436A-AE97-0C697219E89E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentScenariosUsageTests", "FluentScenariosUsageTests\FluentScenariosUsageTests.csproj", "{F871D900-1027-47F7-840E-0C1639BB21DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A40A2E9-E607-4C02-956E-61EBA743D8F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A40A2E9-E607-4C02-956E-61EBA743D8F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A40A2E9-E607-4C02-956E-61EBA743D8F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A40A2E9-E607-4C02-956E-61EBA743D8F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E8EEED-59ED-436A-AE97-0C697219E89E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E8EEED-59ED-436A-AE97-0C697219E89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E8EEED-59ED-436A-AE97-0C697219E89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E8EEED-59ED-436A-AE97-0C697219E89E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F871D900-1027-47F7-840E-0C1639BB21DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F871D900-1027-47F7-840E-0C1639BB21DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F871D900-1027-47F7-840E-0C1639BB21DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F871D900-1027-47F7-840E-0C1639BB21DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
