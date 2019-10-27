@@ -14,7 +14,7 @@ variables:
 steps:
   - task: DotNetCoreInstaller@0
     inputs:
-      version: '3.x'
+      version: '3.0'
 
   - script: dotnet restore
     displayName: 'Restore'
