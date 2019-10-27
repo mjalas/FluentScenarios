@@ -12,9 +12,11 @@ variables:
   dotnet_cli_telemetry_optout: true
 
 steps:
-  - task: DotNetCoreInstaller@0
+  - task: UseDotNet@2
+    displayName: 'Use dotnet sdk 3.x'
     inputs:
-      version: '3.0'
+      version: 3.x
+      includePreviewVersions: true
 
   - script: dotnet restore
     displayName: 'Restore'
