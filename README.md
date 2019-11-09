@@ -1,5 +1,7 @@
 # Fluent Scenarios
 
+[![Build Status](https://dev.azure.com/FluentScenarios/FluentScenarios/_apis/build/status/mjalas.FluentScenarios?branchName=master)](https://dev.azure.com/FluentScenarios/FluentScenarios/_build/latest?definitionId=1&branchName=master)
+
 *Still in early development, more documentation coming soon!*
 
 A light weight testing library for writing higher level test scenarios.
