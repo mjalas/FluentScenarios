@@ -69,7 +69,7 @@ namespace FluentScenariosTests
                 .Do(x => callCount++);
             new Scenario(_output)
                 .Given("this step is executed", action)
-                .And("this step is executed", action)
+                .And("this step is also executed", action)
                 .When("running the scenario", action)
                 .Then("I expect mocked function has been executed", action)
                 .Run();
