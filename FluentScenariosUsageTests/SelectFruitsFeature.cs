@@ -50,10 +50,48 @@ namespace FluentScenariosUsageTests
                 .Run();
         }
         
+        [Scenario]
+        public void SelectObjectFromListWithValuesScenario()
+        {
+            var storedFruits = new List<Fruit>();
+            Fruit selectedFruit = null;
+            var expectedFruitName = "Apple";
+            
+            new Scenario(_output)
+                .Given("I have the following fruits",
+                    new Table()
+                        .Headers("Name", "Weight", "Calories")
+                        .Row("Apple", 135, 41)
+                        .Row("Orange", 150, 47)
+                        .Row("Kiwi", 80, 47),
+                    (table) =>
+                    {
+                        foreach (var fruit in table.Rows)
+                        {
+                            storedFruits.Add(new Fruit { Name = fruit.Name, Weight = fruit.Weight, Calories = fruit.Calories});
+                        }
+                    })
+                .When("selecting the Apple", () =>
+                {
+                    foreach (var fruit in storedFruits)
+                    {
+                        if (fruit.Name == "Apple")
+                        {
+                            selectedFruit = fruit;
+                            break;
+                        }
+                    }
+                })
+                .Then("the selected fruit should weight 135 grams", () => { selectedFruit.Weight.Should().Be(135); })
+                .Run();
+        }
+        
         
         private class Fruit
         {
             public string Name { get; set; }
+            public int Weight { get; set; }
+            public int Calories { get; set; }
         }
     }
 
