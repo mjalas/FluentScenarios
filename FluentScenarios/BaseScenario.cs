@@ -71,9 +71,9 @@ namespace FluentScenarios
             return (T) this;
         }
 
-        protected void AddStepResult(string stepName, string marker)
+        protected virtual void AddStepResult(string stepName, string marker)
         {
-            _outputContent.Add($"{stepName}  {PASSED}");
+            _outputContent.Add($"{stepName}  {marker}");
         }
 
         protected (string name, string exception, string message, string stackTrace) GetFailureContent(
