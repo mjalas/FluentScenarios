@@ -10,10 +10,7 @@ namespace FluentScenarios
     {
         public static string Build(Table table)
         {
-            var output = new List<string>();
             var firstRow = true;
-            var separatorLine = "";
-            ConsoleTable outputTable;
             List<string> headers = new List<string>();
             List<List<object>> rows = new List<List<object>>();
             foreach (var row in table.Rows)
@@ -34,7 +31,7 @@ namespace FluentScenarios
                     }
                 }
             }
-            outputTable = new ConsoleTable(headers.ToArray());
+            var outputTable = new ConsoleTable(headers.ToArray());
             outputTable.Configure(o => o.EnableCount = false);
             foreach (var row in rows)
             {
