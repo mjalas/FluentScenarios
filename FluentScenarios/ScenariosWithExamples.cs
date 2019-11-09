@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Text.RegularExpressions;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace FluentScenarios
 {
@@ -32,17 +31,17 @@ namespace FluentScenarios
                 }
 
                 var name = match.Value.Replace("@", "");
-                var value = _context.Data.GetType().GetProperty(name).GetValue(_context.Data, null);
+                var value = Context.Data.GetType().GetProperty(name).GetValue(Context.Data, null);
                 objAsDict[name] = value;
                 var updatedStatement = statement.Replace(match.Value, value.ToString());
-                _statementsWithKeyChangedToValue.Add(statement, updatedStatement);
+                Statements.Add(statement, updatedStatement);
                 match = match.NextMatch();
                 counter++;
             }
 
             if (counter == 0)
             {
-                _statementsWithKeyChangedToValue.Add(statement, statement);
+                Statements.Add(statement, statement);
             }
 
             return obj;
@@ -51,14 +50,7 @@ namespace FluentScenarios
         protected override void AddStep(string name, Action<dynamic> action)
         {
             var stepValues = GetValuesFromStatement(name);
-            _steps.Add(new Step<StepAction> {Name = name, Action = new ValueAction(action, stepValues)});
+            Steps.Add(new Step<StepAction> {Name = name, Action = new ValueAction(action, stepValues)});
         }
-
-        protected override void AddStepResult(string stepName, string marker)
-        {
-            var step = _statementsWithKeyChangedToValue[stepName];
-            _outputContent.Add($"{step}  {marker}");
-        }
-
     }
 }

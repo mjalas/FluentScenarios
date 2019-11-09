@@ -15,7 +15,8 @@ namespace FluentScenarios
         protected const string PASSED = "\u2714";
         protected const string FAILED = "\u274C";
 
-        protected List<Step<StepAction>> _steps;
+        protected readonly List<Step<StepAction>> Steps;
+        protected readonly Dictionary<string, string> Statements;
 
         protected enum PreviousStep
         {
@@ -24,19 +25,20 @@ namespace FluentScenarios
             Then
         }
 
-        protected PreviousStep _previousStep;
-        protected ScenarioContext _context;
+        protected PreviousStep PreviousStepValue;
+        protected readonly ScenarioContext Context;
 
         protected BaseScenario(ITestOutputHelper output, object data = null)
         {
             _output = output;
             _output = output;
             _outputContent = new List<string>();
-            _previousStep = PreviousStep.Given;
-            _steps = new List<Step<StepAction>>();
+            PreviousStepValue = PreviousStep.Given;
+            Steps = new List<Step<StepAction>>();
+            Statements = new Dictionary<string, string>();
             if (data != null)
             {
-                _context = new ScenarioContext{Data = data};
+                Context = new ScenarioContext{Data = data};
             }
         }
 
@@ -45,27 +47,27 @@ namespace FluentScenarios
         public T Given(string statement, TAction stepAction)
         {
             AddStep($"Given {statement}", stepAction);
-            _previousStep = PreviousStep.Given;
+            PreviousStepValue = PreviousStep.Given;
             return (T) this;
         }
 
         public T When(string statement, TAction stepAction)
         {
             AddStep($"When {statement}", stepAction);
-            _previousStep = PreviousStep.When;
+            PreviousStepValue = PreviousStep.When;
             return (T) this;
         }
 
         public T Then(string statement, TAction stepAction)
         {
             AddStep($"Then {statement}", stepAction);
-            _previousStep = PreviousStep.Then;
+            PreviousStepValue = PreviousStep.Then;
             return (T) this;
         }
 
         public T And(string statement, TAction stepAction)
         {
-            var name = $"{Enum.GetName(typeof(PreviousStep), _previousStep)} {statement}";
+            var name = $"{Enum.GetName(typeof(PreviousStep), PreviousStepValue)} {statement}";
 
             AddStep(name, stepAction);
             return (T) this;
@@ -73,7 +75,8 @@ namespace FluentScenarios
 
         protected virtual void AddStepResult(string stepName, string marker)
         {
-            _outputContent.Add($"{stepName}  {marker}");
+            var step = Statements[stepName];
+            _outputContent.Add($"{step}  {marker}");
         }
 
         protected (string name, string exception, string message, string stackTrace) GetFailureContent(
@@ -87,7 +90,7 @@ namespace FluentScenarios
         {
             bool failed = false;
             (string name, string exception, string message, string stackTrace) failureContent = ("", "", "", "");
-            foreach(var step in _steps)
+            foreach(var step in Steps)
             {
                 try
                 {
